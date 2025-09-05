@@ -1,15 +1,16 @@
-import React from 'react'
 
-import {Agency} from '@/entities/agencies/Model/Agency_Model'
+import { Agency } from '@/entities/agencies/Model/Agency_Model'
 import axios from 'axios'
 export interface Stock  {
+    id:number,
     title:string,
-    agency:Agency,
+    desc:string,
+    agency_id: number,
 }
 
 
 export default async function get_Stocks () :Promise<Stock[]>{
-  let data = await axios.get("https://dff9a02614421063.mokky.dev/Agency")
-  let result= data.data
+  let data = await axios.get<Stock[]>("https://dff9a02614421063.mokky.dev/Stock")
+  let result :Stock[]= data.data
   return result
 }

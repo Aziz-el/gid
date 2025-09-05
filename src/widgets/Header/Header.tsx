@@ -5,10 +5,10 @@ import navLink from "@/shared/UI/NavLink"
 import React from "react"
 export default function Header() {
   return (
-    <div className="header flex items-center px-[60px] py-[40px] justify-between absolute w-full">
+    <div className="header flex items-center px-[80px] py-[40px] justify-between absolute w-full">
        <div className="head flex items-center">
           <img src="/Logo.svg" alt="" />
-          <div className="nav flex gap-[40px] ml-[74px] text-[14px] items-center justify-center text-[#494848]">
+          <div className="nav flex gap-[30px] ml-[124px] text-[14px] items-center justify-center text-[#494848]">
               <NavLink href="/" >Home</NavLink>
               <NavLink href="/tours">Tours</NavLink>
               <NavLink href="/organization">Organization</NavLink>

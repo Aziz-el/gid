@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export interface Agency {
+  id:number,
   img:string,
   rating:number,
   name:string,
@@ -13,12 +14,12 @@ export interface Agency {
 }
 
 export default async function get_Agencies (limit:number,page:number) :Promise<Agency[]>{
-  let data = await axios.get("https://dff9a02614421063.mokky.dev/Agency",{
+  let data = await axios.get<Agency[]>("https://dff9a02614421063.mokky.dev/Agency",{
     params:{
       limit:limit,
       page:page,
     }
   })
-  let result= data.data
+  let result:Agency[]= data.data
   return result
 }

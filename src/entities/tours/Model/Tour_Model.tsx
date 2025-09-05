@@ -1,9 +1,9 @@
-import { Agency } from "@/entities/agencies/Model/Agency_Model"
 import axios from "axios"
 
 export interface Tour{
+    id:number,
     name:string,
-    agency:Agency,
+    agency_id:number,
     img:string,
     rating:number,
     date:{
@@ -18,17 +18,18 @@ export interface Tour{
     },
     vehicle_type:string,
     book_count:number,
-    tags:[]
+    tags:[],
+    price:number,
+    discount : number,
 }
-
-export default async function get_Tours (limit:number,page:number) :Promise<Tour> {
+export default async function get_Tours (limit:number,page:number) :Promise<Tour[]> {
     let data = await axios.get("https://dff9a02614421063.mokky.dev/Tour",{
     params:{
       limit:limit,
       page:page,
     }
   })
-  let result= data.data
+  let result:Tour[]= data.data.items
   return result
 
 }
