@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import get_Tours, { Tour } from '@/entities/tours/Model/Tour_Model'
 import TourCard from '@/entities/tours/UI/Tour'
 import Rating from '@/features/Rating/Rating'
-import Search from '@/features/Search/Search'
 import Type_Of_Tours from '@/features/Type_Of_Tours_Filter/Type_Of_Tours'
 import Button from '@/shared/UI/Button'
+import Search from '@/features/Search/Search'
 
 export default function Home_Tours() {
   const [data, setData] = useState<Tour[]>([])
@@ -14,38 +14,36 @@ export default function Home_Tours() {
   const [countOfTours, setCountOfTours] = useState(0)
   const [pagination, setPagination] = useState<number[]>([])
   const [loading, setLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const limit = 8
+  const columns = 4
 
-  useEffect(() => {
+  const fetchTours = () => {
     setLoading(true)
-    get_Tours(limit, page).then(res => {
+    get_Tours(limit, page, searchTerm).then(res => {
       setData(res.items)
       setCountOfTours(res.meta.total_items)
       const pages = Math.ceil(res.meta.total_items / limit)
       const pagArr: number[] = []
-      for (let i = 1; i <= pages; i++) {
-        pagArr.push(i)
-      }
+      for (let i = 1; i <= pages; i++) pagArr.push(i)
       setPagination(pagArr)
       setLoading(false)
     })
-  }, [page])
+  }
+
+  useEffect(() => {
+    fetchTours()
+  }, [page, searchTerm])
 
   return (
     <div id='tours' className="Tours px-4 md:px-[100px] py-[50px]">
       <div className="Head flex items-center justify-between">
         <div className="head flex items-center">
           <h1 className="font-bold text-[50px]">Tours</h1>
-          <div className="filter flex gap-1 ml-7">
-            <Button type="secondary" Effectclass="" title="For 1 days" />
-            <Button type="secondary" Effectclass="" title="Walking" />
-            <Button type="secondary" Effectclass="" title="By transport" />
-            <Button type="secondary" Effectclass="" title="in my city" />
-          </div>
+          
         </div>
-
         <div className="foot flex items-center gap-3">
-          <Search />
+          <Search value={searchTerm} onChange={(val: string) => setSearchTerm(val)} />
           <Rating />
           <Type_Of_Tours />
         </div>
@@ -54,62 +52,28 @@ export default function Home_Tours() {
       {loading ? (
         <p className="text-center text-gray-500 mt-10">Загружаем туры...</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  mt-6">
-          {data.map((el,index) => {
-            if(index == 0){
-              return (
-              <div key={`tour-${index}`} className="bg-[#F8F8F8] p-4 border-b border-r border-gray-500">
-                <TourCard tourProperty={el} />
-              </div>
-            )}
-
-            if(index == 3){
-              return (
-              <div  key={`tour-${index}`} className="bg-[#F8F8F8] p-4 border-b border-gray-500">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-6">
+          {data.map((el, index) => {
+            const isRightEdge = (index + 1) % columns === 0
+            const isBottomEdge = index >= data.length - columns
+            return (
+              <div
+                key={el.id}
+                className={`
+                  bg-[#F8F8F8] p-4
+                  ${!isBottomEdge ? 'border-b border-gray-500' : ''}
+                  ${!isRightEdge ? 'border-r border-gray-500' : ''}
+                `}
+              >
                 <TourCard tourProperty={el} />
               </div>
             )
-          }
-            if(index == 4){
-              return (
-                <div key={`tour-${index}`} className="bg-[#F8F8F8] p-4  border-r border-gray-500">
-                  <TourCard tourProperty={el} />
-                </div>
-              )
-            }
-              if(index == 7){
-              return (
-                <div key={`tour-${index}`} className="bg-[#F8F8F8] p-4  ">
-                  <TourCard tourProperty={el} />
-                </div>
-              )
-               }
-              if(index <=3 && index!=0 && index!=3){
-              return (
-                <div key={`tour-${index}`} className="bg-[#F8F8F8] p-4 border-b border-r border-gray-500">
-                  <TourCard tourProperty={el} />
-                </div>
-              )
-            }
-             if(index >=4 &&index<=7 && index!=4 && index!=7){
-              return (
-                <div key={`tour-${index}`} className="bg-[#F8F8F8] p-4 border-r border-gray-500">
-                  <TourCard tourProperty={el} />
-                </div>
-              )
-            }
-            
           })}
         </div>
       )}
 
-      <div className="foot flex justify-between items-center mt-10 w-full">
-        <Button
-          type="third"
-          Effectclass="mt-5  block"
-          title="Все туры"
-        />
-        <div className="flex gap-2">
+      <div className="foot flex justify-end items-center mt-10 w-full">
+        <div className="flex gap-2 self-end">
           {pagination.map(p => (
             <div
               key={p}

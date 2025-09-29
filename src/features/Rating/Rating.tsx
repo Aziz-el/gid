@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const ratings = [1, 2, 3, 4, 5]
 
@@ -19,7 +19,6 @@ export default function  Rating() {
       ))}
     </div>
   )
-
   return (
     <div className="relative w-[100px]">
       <button

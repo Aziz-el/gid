@@ -16,18 +16,14 @@ export default function Home_Slider() {
              get_Stocks().then(res => stockSetData(res))
              axios.get("https://dff9a02614421063.mokky.dev/Tour").then(res => tourSetData(res.data))
          }, [])
-         let AlpData = stockData.map((stock)=>{
-             return  tourData.filter(tour=>tour.agency_id == stock.agency_id).at(-1)
-         })
-         console.log(AlpData);
          
   return (
     <>
     <div className="Slider bg-[#1083E6] rounded-4xl h-[500px] w-[85%] text-white mx-auto my-20 flex relative">
     <Swiper spaceBetween={50} slidesPerView={1}>
     {stockData.map((stock, index)=>{
-        if(AlpData[index]){
-            return  <SwiperSlide><Complicated_Slider key={index} stock={stock} tour={AlpData[index]}/></SwiperSlide>
+        if(true){
+            return  <SwiperSlide><Complicated_Slider key={index} stock={stock} tour_id={stock.tour_id}/></SwiperSlide>
         }
     })}
   </Swiper>

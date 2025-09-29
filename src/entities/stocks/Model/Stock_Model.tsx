@@ -5,7 +5,7 @@ export interface Stock  {
     id:number,
     title:string,
     desc:string,
-    agency_id: number,
+    tour_id: number,
 }
 
 

@@ -7,10 +7,11 @@ import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import Button from '@/shared/UI/Button'
+import { useModals } from '@/Hooks/MainStore'
 
 export default function Slider_Stock() {
   const [data, setData] = useState<Stock[]>([])
-
+  let {open} = useModals()
   useEffect(() => {
     get_Stocks().then(res => setData(res))
   }, [])
@@ -35,7 +36,7 @@ export default function Slider_Stock() {
               <h2 className='text-[16px]'>Бронируйте свой тур прямо сейчас!</h2>
               <p className='text-[50px] font-bold leading-[110%] max-w-[760px]'>{el.title}</p>
               <p className='text-gray-400 text-[16px] max-w-[760px]'>{el.desc}</p>
-              <Button type='primary' Effectclass="max-w-[110px] absolute bottom-1" title='Смотреть' />
+              <Button type='primary' Effectclass="max-w-[110px] absolute bottom-1" title='Смотреть' onClick={()=>open('buy',el.tour_id)} />
             </div>
           </SwiperSlide>
         ))}
