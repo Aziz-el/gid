@@ -10,9 +10,9 @@ export default function TourCard({ tourProperty }: TourCardProps) {
   let rating = []
   for(let i = 0;i<5 ; i++){
     if(i <Math.floor(tourProperty.rating)){
-       rating.push(<img src={"/starFull.svg"} />)
+       rating.push(<img src={"/starFull.svg"} key={`img${tourProperty.id}-${i}`} />)
     }else{
-      rating.push(<img src={"/starEmpty.svg"} />)
+      rating.push(<img src={"/starEmpty.svg"} key={`img${tourProperty.id}-${i}`} />)
     }
   }
 const [year, month, day] = tourProperty.date.start_date.split("-");
@@ -20,9 +20,9 @@ const formatted = `${month}/${day}/${year.slice(2)}`;
 
  let price = tourProperty.price - tourProperty.discount
   return (
-    <div className="tour w-[300px]  flex flex-col gap-4">
-      <div className="img w-[100%] h-[300px] relative ">
-        <img src={tourProperty.img} alt="" className='absolute h-full w-full rounded-[32px]'/>
+    <div className="tour w-[300px]  flex flex-col gap-4r">
+      <div className="img w-[100%] h-[300px] relative self-center">
+        <img src={tourProperty.img} alt="" className='absolute h-full w-full rounded-[32px] '/>
         <div className="head relative z-2 py-3 px-5">
           <div className="rating flex rounded-2xl bg-white items-center justify-center max-w-[154px] gap-2 p-1.5">
             Rating 

@@ -1,6 +1,7 @@
 import Header from "@/widgets/Header/Header";
 import "./globals.css";
 import{ Inter} from "next/font/google";
+import { ModalProvider } from "@/Hooks/MainStore";
 export const metadata ={
   title:"GID",
   icons:{
@@ -16,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+         <ModalProvider>
         <div className="container" style={inter.style}>
           {<Header/>}
           {children}
         </div>
+        </ModalProvider>
       </body>
     </html>
   );

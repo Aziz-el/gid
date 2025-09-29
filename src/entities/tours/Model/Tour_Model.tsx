@@ -22,14 +22,14 @@ export interface Tour{
     price:number,
     discount : number,
 }
-export default async function get_Tours (limit:number,page:number) :Promise<Tour[]> {
+export default async function get_Tours (limit:number,page:number)  {
     let data = await axios.get("https://dff9a02614421063.mokky.dev/Tour",{
     params:{
       limit:limit,
       page:page,
     }
   })
-  let result:Tour[]= data.data.items
+  let result= data.data
   return result
 
 }
